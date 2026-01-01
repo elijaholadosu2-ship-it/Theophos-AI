@@ -19,7 +19,8 @@
         #output-container { margin-top: 30px; padding: 25px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; display: none; }
         #output-text { white-space: pre-wrap; font-size: 16px; color: #374151; }
         .download-btn { background: var(--success); color: white; padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 15px; display: block; margin-left: auto; }
-        .loading { color: var(--accent); font-weight: bold; font-style: italic; }
+        .loading { color: var(--accent); font-weight: bold; font-style: italic; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
     </style>
 </head>
 <body>
@@ -37,33 +38,36 @@
     </div>
 
     <div id="scholar" class="panel active">
+        <label>Choose Textbook Context:</label>
         <select id="book-choice">
             <option>Loyalty and Disloyalty</option>
             <option>Art & Science of Applied Leadership</option>
             <option>Core Concepts of Shepherding</option>
             <option>Foundations for the Work of Ministry</option>
+            <option>Theory & Practice of the Anointing</option>
         </select>
-        <textarea id="scholar-q" rows="4" placeholder="Enter your assignment question here..."></textarea>
+        <textarea id="scholar-q" rows="4" placeholder="Ask your assignment or theology question..."></textarea>
         <button class="generate-btn" onclick="askTheophos('Scholar')">Generate Scholarly Response</button>
     </div>
 
     <div id="sermon" class="panel">
-        <textarea id="sermon-q" rows="4" placeholder="Enter topic or Bible verse (e.g., Psalm 23)..."></textarea>
+        <textarea id="sermon-q" rows="4" placeholder="Enter topic or Bible verse (e.g., The Mystery of the First Love)..."></textarea>
         <button class="generate-btn" onclick="askTheophos('Sermon')">Architect Sermon Outline</button>
     </div>
 
     <div id="creator" class="panel">
-        <textarea id="creator-q" rows="4" placeholder="Enter theme (e.g., Overcoming Loneliness)..."></textarea>
+        <textarea id="creator-q" rows="4" placeholder="Enter theme (e.g., 5 Signs of a Godly Relationship)..."></textarea>
         <button class="generate-btn" onclick="askTheophos('Creator')">Generate Viral Script & Prompts</button>
     </div>
 
     <div id="output-container">
         <div id="output-text"></div>
-        <button class="download-btn" onclick="exportToDoc()">💾 Download .doc</button>
+        <button id="dl-btn" class="download-btn" onclick="exportToDoc()" style="display:none;">💾 Download .doc</button>
     </div>
 </div>
 
 <script>
+    // YOUR API KEY
     const API_KEY = "AIzaSyCGIeGZP8vWmONgQmtkNQduUDWJyAArAkg";
 
     function openTool(toolId, btn) {
@@ -71,21 +75,25 @@
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(toolId).classList.add('active');
         btn.classList.add('active');
+        document.getElementById('output-container').style.display = 'none';
     }
 
     async function askTheophos(type) {
         const outBox = document.getElementById('output-container');
         const outText = document.getElementById('output-text');
+        const dlBtn = document.getElementById('dl-btn');
+        
         outBox.style.display = 'block';
-        outText.innerHTML = '<p class="loading">Theophos AI is searching the scriptures and textbooks...</p>';
+        dlBtn.style.display = 'none';
+        outText.innerHTML = '<p class="loading">Theophos AI is processing your request...</p>';
 
         let prompt = "";
         if(type === 'Scholar') {
-            prompt = `As an expert theologian, answer this based on the book "${document.getElementById('book-choice').value}": ${document.getElementById('scholar-q').value}. Include bold references and a story illustration.`;
+            prompt = `You are a theological scholar. Using the context of the book "${document.getElementById('book-choice').value}", answer this: ${document.getElementById('scholar-q').value}. Format with bold headings, clear points, and a concluding story.`;
         } else if(type === 'Sermon') {
-            prompt = `Create a deep sermon outline for: ${document.getElementById('sermon-q').value}. Include Greek/Hebrew word studies and 3 main points.`;
+            prompt = `Act as a seasoned Pastor. Create a detailed sermon outline for: ${document.getElementById('sermon-q').value}. Include 3 main points, Greek/Hebrew word insights, and a call to action.`;
         } else {
-            prompt = `Create a viral social media script and an AI image prompt for: ${document.getElementById('creator-q').value}.`;
+            prompt = `Act as a Christian Content Creator. For the theme "${document.getElementById('creator-q').value}", provide: 1) A 60-second TikTok script, 2) 3 catchy titles, and 3) An AI image generation prompt for a background.`;
         }
 
         try {
@@ -94,10 +102,18 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
+            
             const data = await response.json();
-            outText.innerText = data.candidates[0].content.parts[0].text;
+            
+            if (data.error) {
+                outText.innerHTML = `<span style="color:red;">API Error: ${data.error.message}</span>`;
+            } else {
+                const aiResult = data.candidates[0].content.parts[0].text;
+                outText.innerText = aiResult;
+                dlBtn.style.display = 'block';
+            }
         } catch (e) {
-            outText.innerText = "Connection error. Please check your key or internet.";
+            outText.innerHTML = `<span style="color:red;">Network Error: Please check your connection and try again.</span>`;
         }
     }
 
