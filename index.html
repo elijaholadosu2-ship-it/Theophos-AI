@@ -3,71 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theophos AI | Ministry & Creator Hub</title>
-    
-    <script src="https://pl28368329.effectivegatecpm.com/99/d5/ec/99d5ecd7887ca3f11a0d782584530e10.js"></script>
-
+    <title>Angkazo AI - Modern Ministry Tools</title>
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f1f5f9; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; }
-        .header { text-align: center; padding: 30px 0; border-bottom: 1px solid #334155; margin-bottom: 30px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #334155; position: relative; }
-        .card h3 { color: var(--accent); margin-top: 0; }
-        .btn { background: var(--accent); color: #000; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; text-decoration: none; display: inline-block; text-align: center; }
-        .creator-section { grid-column: 1 / -1; background: #1e293b; padding: 20px; border-radius: 12px; border: 2px solid var(--accent); margin-top: 20px; }
-        .ad-box { text-align: center; margin: 20px 0; min-height: 100px; }
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f4f7f6;
+            --white: #ffffff;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--primary); }
+        .container { max-width: 800px; margin: 0 auto; background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; }
+        
+        /* Navigation Menu - No Page Reloads */
+        .tool-nav { display: flex; justify-content: space-around; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        .tool-nav button { background: none; border: none; font-weight: bold; cursor: pointer; color: #7f8c8d; padding: 10px 20px; transition: 0.3s; }
+        .tool-nav button.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
+
+        /* Tool Section Styling */
+        .tool-content { display: none; animation: fadeIn 0.5s; }
+        .tool-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; }
+        textarea, select, input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        
+        .btn-action { background: var(--accent); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 18px; font-weight: bold; margin-top: 10px; }
+        .btn-action:hover { background: #2980b9; }
+
+        /* Ad Placement Styling */
+        .native-ad-space { margin: 25px 0; padding: 15px; background: #fafafa; border: 1px dashed #ccc; text-align: center; border-radius: 10px; }
+        .ad-label { font-size: 10px; color: #999; text-transform: uppercase; margin-bottom: 10px; display: block; }
+
+        #ai-response { margin-top: 30px; padding: 20px; background: #eef2f3; border-radius: 10px; display: none; border-left: 5px solid var(--accent); }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>THEOPHOS AI 🕊️</h1>
-        <p>Intelligence for Pastors & Global Creators</p>
+<div class="container">
+    <h1>Angkazo AI Tools</h1>
+
+    <div class="tool-nav">
+        <button id="btn-assignment" class="active" onclick="switchTool('assignment')">Assignment</button>
+        <button id="btn-sermon" onclick="switchTool('sermon')">Sermon Prep</button>
+        <button id="btn-quiz" onclick="switchTool('quiz')">Quiz Creator</button>
     </div>
 
-    <div class="ad-box">
-        <script async="async" data-cfasync="false" src="https://pl28368322.effectivegatecpm.com/973cbd4eaa7db0ffbdbbe041d0f4c2ff/invoke.js"></script>
-        <div id="container-973cbd4eaa7db0ffbdbbe041d0f4c2ff"></div>
+    <div id="tool-assignment" class="tool-content active">
+        <div class="input-group">
+            <label>Ask a question based on your textbooks:</label>
+            <textarea id="assign-input" rows="4" placeholder="Example: What are the core concepts of shepherding?"></textarea>
+        </div>
+        <button class="btn-action" onclick="processAI('Assignment')">Generate Assignment Help</button>
     </div>
 
-    <div class="grid">
-        <div class="card">
-            <h3>📖 Manthano Scholar</h3>
-            <p>Search 12 Leadership textbooks. Get bolded references for your assignments.</p>
-            <button class="btn" onclick="alert('Searching Manthano Database...')">Search Books</button>
-        </div>
-
-        <div class="card">
-            <h3>🎙️ Sermon Architect</h3>
-            <p>Create powerful outlines with Greek/Hebrew deep-dives.</p>
-            <button class="btn" onclick="alert('Architecting your message...')">Build Sermon</button>
-        </div>
-
-        <div class="creator-section">
-            <h3>🎨 Content Creator Studio (AI)</h3>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 250px;">
-                    <h4>📜 Scripture Video Scripter</h4>
-                    <p>Enter a theme (e.g., "Faith") to get a TikTok/Reel script with background scene ideas.</p>
-                    <button class="btn" style="background: #fbbf24;" onclick="alert('Generating Viral Scripture Script...')">Generate Script</button>
-                </div>
-                <div style="flex: 1; min-width: 250px;">
-                    <h4>🖼️ AI Image Prompt Gen</h4>
-                    <p>Get high-quality prompts for Midjourney/DALL-E to create biblical visuals.</p>
-                    <button class="btn" style="background: #fbbf24;" onclick="alert('Crafting Image Prompts...')">Generate Prompts</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="card" style="border: 2px dashed #64748b;">
-            <h3>💎 Unlock Premium</h3>
-            <p>Support Theophos AI to keep the tools free. Clicking helps us grow!</p>
-            <a href="https://www.effectivegatecpm.com/dj15ch3x?key=abfaef6f0edd1051637b4695452e9d92" class="btn" target="_blank">Support & Unlock</a>
+    <div class="native-ad-space">
+        <span class="ad-label">Sponsored</span>
+        <div id="adsterra-native-placeholder">
+            <p style="color:#666">Your Native Ad will appear here.</p>
         </div>
     </div>
 
-    <p style="text-align: center; margin-top: 40px; color: #64748b; font-size: 12px;">© 2026 Theophos AI | Professional Ministry Technology</p>
+    <div id="tool-sermon" class="tool-content">
+        <div class="input-group">
+            <label>Sermon Topic or Scripture:</label>
+            <input type="text" id="sermon-topic" placeholder="Example: The Power of the Anointing">
+        </div>
+        <button class="btn-action" onclick="processAI('Sermon')">Create Sermon Outline</button>
+    </div>
+
+    <div id="tool-quiz" class="tool-content">
+        <div class="input-group">
+            <label>Choose Textbook:</label>
+            <select id="quiz-book">
+                <option>Essential Charismatic Doctrines</option>
+                <option>Foundations for the Work of Ministry</option>
+                <option>Principles of Spiritual Guidance</option>
+                <option>Practical Approaches to Church Growth</option>
+            </select>
+        </div>
+        <button class="btn-action" onclick="processAI('Quiz')">Generate 5-Question Quiz</button>
+    </div>
+
+    <div id="ai-response">
+        <h3 id="res-title">AI Result</h3>
+        <div id="res-body"></div>
+    </div>
+</div>
+
+<script src="https://pl28368305.effectivegatecpm.com/9e/81/39/9e8139365ea358b64f4023c6b4d1074a.js"></script>
+
+<script>
+    // Logic to switch tools without reloading the page
+    function switchTool(toolName) {
+        // Remove active class from all buttons and sections
+        document.querySelectorAll('.tool-nav button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tool-content').forEach(section => section.classList.remove('active'));
+        
+        // Add active class to selected
+        document.getElementById('btn-' + toolName).classList.add('active');
+        document.getElementById('tool-' + toolName).classList.add('active');
+        
+        // Clear previous results when switching
+        document.getElementById('ai-response').style.display = 'none';
+    }
+
+    // "Real AI" Simulation 
+    function processAI(type) {
+        const responseBox = document.getElementById('ai-response');
+        const responseBody = document.getElementById('res-body');
+        const responseTitle = document.getElementById('res-title');
+
+        responseBox.style.display = 'block';
+        responseTitle.innerText = "Angkazo " + type + " Generator";
+        responseBody.innerHTML = "<em>Reading textbook content and generating your " + type.toLowerCase() + "...</em>";
+
+        // This simulates the AI fetching data from your EPUB files
+        setTimeout(() => {
+            if(type === 'Assignment') {
+                responseBody.innerHTML = "<strong>Answer:</strong> Based on the 'Foundations for the Work of Ministry', the call to ministry is both a divine mandate and a practical commitment to service... [Reference: Foundations Textbook]";
+            } else if(type === 'Sermon') {
+                responseBody.innerHTML = "<strong>Outline:</strong> 1. Introduction to the Anointing. 2. Biblical examples from 'Theory & Practice of the Anointing'. 3. Practical application for the believer.";
+            } else {
+                responseBody.innerHTML = "<strong>Quiz Generated:</strong><br>1. Define 'Charismatic' according to Doctrine Chapter 1...<br>2. What are the three pillars of guidance?...";
+            }
+        }, 1500);
+    }
+</script>
 
 </body>
 </html>
