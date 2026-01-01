@@ -3,124 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theophos AI | Master Assignment Architect</title>
+    <title>Theophos | Anagkazo Exam Simulator</title>
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #3b82f6; --text: #f8fafc; --success: #10b981; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 15px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        h1 { text-align: center; color: var(--accent); margin: 0; font-size: 1.8rem; }
-        label { display: block; margin-top: 20px; font-weight: bold; color: var(--accent); font-size: 0.8rem; text-transform: uppercase; }
-        select, input { width: 100%; padding: 12px; margin-top: 8px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
-        .btn { background: var(--accent); color: white; border: none; padding: 18px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 20px; font-size: 1rem; }
-        #output-area { display: none; margin-top: 30px; border-top: 2px solid #334155; padding-top: 20px; }
-        .paper-view { background: white; color: #1a1a1b; padding: 40px; border-radius: 8px; font-family: 'Georgia', serif; font-size: 1.1rem; height: 500px; overflow-y: scroll; line-height: 1.8; }
-        .stats { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold; }
+        :root { --primary: #075985; --bg: #f1f5f9; --white: #ffffff; --danger: #ef4444; --success: #22c55e; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #1e293b; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .card { background: var(--white); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 20px; border-left: 8px solid var(--primary); }
+        .question-box { background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; font-weight: 600; font-size: 1.1rem; }
+        
+        .options { display: flex; justify-content: space-around; gap: 10px; }
+        .opt-btn { flex: 1; padding: 15px; border: 2px solid #e2e8f0; border-radius: 50px; cursor: pointer; background: white; font-weight: bold; transition: 0.2s; }
+        .opt-btn:hover { background: #f1f5f9; border-color: var(--primary); }
+        .opt-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .score-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: bold; }
+        .marking-rule { font-size: 0.8rem; color: var(--danger); text-align: center; margin-bottom: 10px; }
+        
+        #results { display: none; text-align: center; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; }
     </style>
 </head>
 <body>
 
-<script src="https://pl28368305.effectivegatecpm.com/9e/81/39/9e8139365ea358b64f4023c6b4d1074a.js"></script>
-
 <div class="container">
-    <h1>THEOPHOS ARCHITECT 🏛️</h1>
-    <p style="text-align:center; opacity:0.7;">1,500+ Word Academic Assignment Generator</p>
+    <header style="text-align: center; margin-bottom: 30px;">
+        <h1 style="margin:0; color: var(--primary);">EXAM MASTER 🎓</h1>
+        <p style="margin:5px 0; opacity: 0.7;">Anagkazo Negative Marking Simulator</p>
+    </header>
 
-    <label>Main Textbook</label>
-    <select id="book">
-        <option>Loyalty and Disloyalty</option>
-        <option>The Art of Shepherding</option>
-        <option>The Art of Leadership</option>
-        <option>Transform Your Pastoral Ministry</option>
-        <option>Catch the Anointing</option>
-        <option>Steps to the Anointing</option>
-        <option>The Model Marriage</option>
-        <option>Church Growth</option>
-        <option>The Art of Hearing</option>
-        <option>Many Are Called</option>
-        <option>How You Can Preach 20 Messages</option>
-        <option>Name It! Claim It! Take It!</option>
-    </select>
+    <div class="marking-rule">⚠️ Warning: Correct (+1) | Wrong (-1) | Skip (0)</div>
 
-    <label>Assignment Topic / Chapter</label>
-    <input type="text" id="topic" placeholder="e.g. Chapter 5: The Stages of Disloyalty">
-
-    <label>The 3 Points for the Assignment</label>
-    <input type="text" id="p1" placeholder="Point 1" style="margin-bottom:8px;">
-    <input type="text" id="p2" placeholder="Point 2" style="margin-bottom:8px;">
-    <input type="text" id="p3" placeholder="Point 3">
-
-    <button class="btn" onclick="buildAssignment()">Generate 1,500 Word Assignment</button>
-
-    <div id="output-area">
-        <div class="stats">
-            <span id="word-count" style="color: var(--success);">0 Words</span>
-            <button onclick="downloadDoc()" style="background: var(--success); color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">💾 Download .doc</button>
+    <div id="quiz-container">
+        <div class="score-panel">
+            <span id="q-count">Question 1/5</span>
+            <span id="live-score">Score: 0</span>
         </div>
-        <div id="paper" class="paper-view"></div>
+
+        <div class="card">
+            <div id="question" class="question-box">Loading question...</div>
+            <div class="options">
+                <button class="opt-btn" onclick="checkAnswer(true)">TRUE</button>
+                <button class="opt-btn" onclick="checkAnswer(false)">FALSE</button>
+                <button class="opt-btn" style="border-color:#94a3b8; color:#64748b;" onclick="checkAnswer('skip')">SKIP</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="results" class="card">
+        <h2>Exam Complete!</h2>
+        <div style="font-size: 3rem; font-weight: 900; margin: 20px 0;" id="final-score">0</div>
+        <p id="feedback">Keep studying the textbooks!</p>
+        <button class="btn-main" onclick="location.reload()">Try Another Subject</button>
     </div>
 </div>
 
 <script>
-    const KEY = "AIzaSyCGIeGZP8vWmONgQmtkNQduUDWJyAArAkg";
+    // Database of actual Anagkazo-style questions
+    const questions = [
+        { q: "A shepherd who does not enter by the door relies on the reputation of rebellious people.", ans: true },
+        { q: "Loyalty is the foundation of every lasting ministry.", ans: true },
+        { q: "According to 'The Art of Shepherding', a shepherd should only care for those who give tithes.", ans: false },
+        { q: "An independent spirit is the first stage of disloyalty.", ans: true },
+        { q: "The 'Anagkazo' compulsion means you only invite people who want to come to church.", ans: false }
+    ];
 
-    async function buildAssignment() {
-        const book = document.getElementById('book').value;
-        const topic = document.getElementById('topic').value;
-        const p1 = document.getElementById('p1').value;
-        const p2 = document.getElementById('p2').value;
-        const p3 = document.getElementById('p3').value;
-        const paper = document.getElementById('paper');
+    let currentQ = 0;
+    let score = 0;
 
-        if(!p1 || !p2 || !p3) return alert("Chale, please enter all 3 points!");
-
-        document.getElementById('output-area').style.display = 'block';
-        paper.innerHTML = "<em>Theophos is searching the archives... Writing 1,500+ words... Please wait (this takes about 30 seconds)...</em>";
-
-        const prompt = `Write a deep, 1500-word academic assignment for Anagkazo Bible School.
-        MAIN TEXTBOOK: "${book}"
-        TOPIC: "${topic}"
-        3 CORE POINTS TO EXPAND: 1. ${p1}, 2. ${p2}, 3. ${p3}
-
-        MANDATORY STRUCTURE:
-        1. Academic Header & Introduction (250 words).
-        2. Deep Section on Point 1: Include 2 scriptures and a quote from another Dag Heward-Mills book (like 'The Art of Hearing').
-        3. Deep Section on Point 2: Focus on ministry application and practical shepherding.
-        4. Deep Section on Point 3: Use strong theological backing.
-        5. MINISTRY STORY: A 400-word detailed story of a pastor applying these truths in a church setting.
-        6. Conclusion & Practical Ministry Advice.
-
-        Use high-level academic language and ensure the word count is very long.`;
-
-        try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${KEY}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-            });
-
-            const data = await response.json();
-            
-            if(data.error) {
-                paper.innerHTML = `<span style="color:red;">API Error: ${data.error.message}. Please check if your key has 'Gemini Pro' enabled.</span>`;
-            } else {
-                const text = data.candidates[0].content.parts[0].text;
-                paper.innerText = text;
-                const count = text.split(/\s+/).length;
-                document.getElementById('word-count').innerText = count + " Words Generated";
-            }
-        } catch (e) {
-            paper.innerHTML = "<span style='color:red;'>Connection Error: Check your internet or API key settings.</span>";
+    function loadQuestion() {
+        if(currentQ < questions.length) {
+            document.getElementById('q-count').innerText = `Question ${currentQ + 1}/${questions.length}`;
+            document.getElementById('question').innerText = questions[currentQ].q;
+        } else {
+            showResults();
         }
     }
 
-    function downloadDoc() {
-        const content = document.getElementById('paper').innerText;
-        const blob = new Blob(['\ufeff', content], { type: 'application/msword' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = "Anagkazo_Deep_Assignment.doc";
-        link.click();
+    function checkAnswer(userAns) {
+        if(userAns !== 'skip') {
+            const correctAns = questions[currentQ].ans;
+            if(userAns === correctAns) {
+                score += 1;
+            } else {
+                score -= 1;
+            }
+        }
+        
+        document.getElementById('live-score').innerText = `Score: ${score}`;
+        currentQ++;
+        loadQuestion();
     }
+
+    function showResults() {
+        document.getElementById('quiz-container').style.display = 'none';
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('final-score').innerText = score;
+        
+        let msg = "";
+        if(score >= 4) msg = "Excellent! You are ready for the exam.";
+        else if(score >= 2) msg = "Good, but revise your textbooks again.";
+        else msg = "Warning: You need to study more to avoid negative marks!";
+        document.getElementById('feedback').innerText = msg;
+    }
+
+    // Initialize
+    loadQuestion();
 </script>
+
 </body>
 </html>
