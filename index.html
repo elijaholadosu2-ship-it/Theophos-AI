@@ -3,111 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theophos | Anagkazo Exam Simulator</title>
+    <title>Prompt Lab | Theophos Universal</title>
     <style>
-        :root { --primary: #075985; --bg: #f1f5f9; --white: #ffffff; --danger: #ef4444; --success: #22c55e; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #1e293b; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .card { background: var(--white); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 20px; border-left: 8px solid var(--primary); }
-        .question-box { background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; font-weight: 600; font-size: 1.1rem; }
+        :root { --neon: #00f2ff; --bg: #050505; --card: #111111; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 450px; margin: 0 auto; }
+        .lab-card { background: var(--card); border: 1px solid #222; border-radius: 20px; padding: 25px; margin-top: 20px; position: relative; }
         
-        .options { display: flex; justify-content: space-around; gap: 10px; }
-        .opt-btn { flex: 1; padding: 15px; border: 2px solid #e2e8f0; border-radius: 50px; cursor: pointer; background: white; font-weight: bold; transition: 0.2s; }
-        .opt-btn:hover { background: #f1f5f9; border-color: var(--primary); }
-        .opt-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-        .score-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: bold; }
-        .marking-rule { font-size: 0.8rem; color: var(--danger); text-align: center; margin-bottom: 10px; }
+        .prompt-display { background: #000; padding: 20px; border-radius: 12px; border: 1px solid var(--neon); color: var(--neon); font-family: 'Courier New', monospace; min-height: 80px; margin: 20px 0; font-size: 0.9rem; text-align: left; line-height: 1.4; }
         
-        #results { display: none; text-align: center; }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; }
+        .category-btn { background: #222; color: #888; border: none; padding: 8px 15px; border-radius: 50px; cursor: pointer; margin: 5px; font-size: 0.8rem; }
+        .category-btn.active { background: var(--neon); color: black; font-weight: bold; }
+        
+        .btn-generate { background: white; color: black; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        .btn-generate:hover { background: var(--neon); box-shadow: 0 0 20px var(--neon); }
+        
+        .copy-hint { font-size: 0.7rem; color: #555; margin-top: 10px; }
     </style>
 </head>
 <body>
 
+<script src="https://pl28368305.effectivegatecpm.com/9e/81/39/9e8139365ea358b64f4023c6b4d1074a.js"></script>
+
 <div class="container">
-    <header style="text-align: center; margin-bottom: 30px;">
-        <h1 style="margin:0; color: var(--primary);">EXAM MASTER 🎓</h1>
-        <p style="margin:5px 0; opacity: 0.7;">Anagkazo Negative Marking Simulator</p>
-    </header>
+    <h1 style="margin-bottom: 0;">PROMPT LAB 🧪</h1>
+    <p style="opacity: 0.5; font-size: 0.9rem;">Generate professional AI instructions</p>
 
-    <div class="marking-rule">⚠️ Warning: Correct (+1) | Wrong (-1) | Skip (0)</div>
-
-    <div id="quiz-container">
-        <div class="score-panel">
-            <span id="q-count">Question 1/5</span>
-            <span id="live-score">Score: 0</span>
+    <div class="lab-card">
+        <div style="margin-bottom: 15px;">
+            <button class="category-btn active" onclick="setCat('art')">3D Art</button>
+            <button class="category-btn" onclick="setCat('logo')">Logos</button>
+            <button class="category-btn" onclick="setCat('story')">Business</button>
         </div>
 
-        <div class="card">
-            <div id="question" class="question-box">Loading question...</div>
-            <div class="options">
-                <button class="opt-btn" onclick="checkAnswer(true)">TRUE</button>
-                <button class="opt-btn" onclick="checkAnswer(false)">FALSE</button>
-                <button class="opt-btn" style="border-color:#94a3b8; color:#64748b;" onclick="checkAnswer('skip')">SKIP</button>
-            </div>
-        </div>
-    </div>
+        <div class="prompt-display" id="p-out">Click Generate to get a professional AI prompt...</div>
 
-    <div id="results" class="card">
-        <h2>Exam Complete!</h2>
-        <div style="font-size: 3rem; font-weight: 900; margin: 20px 0;" id="final-score">0</div>
-        <p id="feedback">Keep studying the textbooks!</p>
-        <button class="btn-main" onclick="location.reload()">Try Another Subject</button>
+        <button class="btn-generate" onclick="generatePrompt()">Generate New Prompt</button>
+        <button class="btn-generate" style="margin-top:10px; background:#111; color:white; border:1px solid #333;" onclick="copyPrompt()">Copy to Clipboard</button>
+        
+        <p class="copy-hint" id="copy-msg">Paste this into ChatGPT, Gemini, or Midjourney.</p>
     </div>
+    
+    <div style="margin-top: 30px; opacity: 0.2; font-size: 0.7rem;">THEOPHOS UNIVERSAL ENGINE</div>
 </div>
 
 <script>
-    // Database of actual Anagkazo-style questions
-    const questions = [
-        { q: "A shepherd who does not enter by the door relies on the reputation of rebellious people.", ans: true },
-        { q: "Loyalty is the foundation of every lasting ministry.", ans: true },
-        { q: "According to 'The Art of Shepherding', a shepherd should only care for those who give tithes.", ans: false },
-        { q: "An independent spirit is the first stage of disloyalty.", ans: true },
-        { q: "The 'Anagkazo' compulsion means you only invite people who want to come to church.", ans: false }
-    ];
+    let currentCat = 'art';
+    const library = {
+        art: [
+            "A high-quality 3D Pixar-style character of a young entrepreneur sitting on a gold throne, neon lighting, 8k resolution.",
+            "A cinematic Cyberpunk city street in the rain, ultra-realistic, shot on 35mm lens, vibrant purple and blue colors.",
+            "A cute 3D claymation style african village during sunset, soft lighting, high detail, masterpiece."
+        ],
+        logo: [
+            "A minimalist vector logo for a modern tech startup, geometric shapes, blue and white color palette, white background.",
+            "A luxury gold emblem for a premium clothing brand, elegant typography, isolated on black background.",
+            "A creative mascot logo for a gaming channel, aggressive style, vibrant colors, flat design."
+        ],
+        story: [
+            "Write a professional 5-day email marketing sequence for a new organic skincare product targeting young professionals.",
+            "Create a 30-day social media content calendar for a local coffee shop, including captions and hashtag suggestions.",
+            "Develop a business pitch deck outline for a revolutionary solar energy app including market analysis and financial projections."
+        ]
+    };
 
-    let currentQ = 0;
-    let score = 0;
-
-    function loadQuestion() {
-        if(currentQ < questions.length) {
-            document.getElementById('q-count').innerText = `Question ${currentQ + 1}/${questions.length}`;
-            document.getElementById('question').innerText = questions[currentQ].q;
-        } else {
-            showResults();
-        }
+    function setCat(cat) {
+        currentCat = cat;
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
     }
 
-    function checkAnswer(userAns) {
-        if(userAns !== 'skip') {
-            const correctAns = questions[currentQ].ans;
-            if(userAns === correctAns) {
-                score += 1;
-            } else {
-                score -= 1;
-            }
-        }
-        
-        document.getElementById('live-score').innerText = `Score: ${score}`;
-        currentQ++;
-        loadQuestion();
+    function generatePrompt() {
+        const list = library[currentCat];
+        const random = list[Math.floor(Math.random() * list.length)];
+        document.getElementById('p-out').innerText = random;
+        document.getElementById('copy-msg').innerText = "Click Copy to use it!";
     }
 
-    function showResults() {
-        document.getElementById('quiz-container').style.display = 'none';
-        document.getElementById('results').style.display = 'block';
-        document.getElementById('final-score').innerText = score;
-        
-        let msg = "";
-        if(score >= 4) msg = "Excellent! You are ready for the exam.";
-        else if(score >= 2) msg = "Good, but revise your textbooks again.";
-        else msg = "Warning: You need to study more to avoid negative marks!";
-        document.getElementById('feedback').innerText = msg;
+    function copyPrompt() {
+        const text = document.getElementById('p-out').innerText;
+        navigator.clipboard.writeText(text);
+        document.getElementById('copy-msg').innerText = "✅ Prompt Copied! Now paste it in AI.";
+        document.getElementById('copy-msg').style.color = "#00f2ff";
     }
-
-    // Initialize
-    loadQuestion();
 </script>
 
 </body>
