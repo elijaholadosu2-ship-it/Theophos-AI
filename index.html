@@ -3,143 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theophos Hub | Advanced Tools</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>THEOPHOS CREATOR HUB | Viral Engine</title>
     <style>
-        :root { --p: #6366f1; --bg: #0f172a; --c: #1e293b; --text: #f8fafc; --success: #10b981; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; }
-        .container { max-width: 500px; margin: 0 auto; }
-        .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 20px; background: var(--c); padding: 5px; border-radius: 12px; }
-        .tab-btn { background: none; border: none; color: #94a3b8; padding: 10px 5px; cursor: pointer; font-size: 0.65rem; font-weight: bold; border-radius: 8px; }
-        .tab-btn.active { background: var(--p); color: white; }
-        .tool-card { display: none; background: var(--c); padding: 20px; border-radius: 20px; border: 1px solid #334155; }
-        .tool-card.active { display: block; }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; background: var(--p); color: white; margin-top: 10px; }
-        
-        /* Advanced Receipt Styling */
-        #receipt-render { 
-            background: white; color: black; padding: 30px; border-radius: 4px; 
-            font-family: 'Courier New', monospace; display: none; text-align: left;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-        .receipt-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
+        :root { --p: #6366f1; --bg: #030712; --c: #111827; --acc: #10b981; --red: #ff0050; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; line-height: 1.6; }
+        .container { max-width: 480px; margin: 0 auto; }
+        .card { background: var(--c); padding: 25px; border-radius: 24px; border: 1px solid #1f2937; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .counter-box { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--acc); padding: 15px; border-radius: 50px; text-align: center; margin-bottom: 25px; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #374151; background: #030712; color: white; box-sizing: border-box; font-size: 1rem; outline: none; }
+        input:focus { border-color: var(--p); }
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; background: var(--p); color: white; transition: 0.3s; font-size: 1rem; }
+        .btn:active { transform: scale(0.98); }
+        #timer { font-size: 2.5rem; color: var(--acc); font-weight: 900; text-align: center; margin: 10px 0; display: none; }
+        .trust-item { font-size: 0.8rem; opacity: 0.8; margin-bottom: 8px; display: flex; align-items: center; }
+        .trust-item::before { content: "✅"; margin-right: 8px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header style="text-align:center; margin: 20px 0;">
-        <h1 style="margin:0;">THEOPHOS HUB 🛠️</h1>
+    <header style="text-align:center; margin-top: 20px; margin-bottom: 30px;">
+        <h1 style="margin:0; letter-spacing: -1.5px; font-size: 2rem;">THEOPHOS <span style="color:var(--red)">CREATOR</span></h1>
+        <p style="opacity:0.5; font-size: 0.85rem;">Global Viral Exchange Engine</p>
     </header>
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="showTool('video')">VIDEO</button>
-        <button class="tab-btn" onclick="showTool('resize')">RESIZE</button>
-        <button class="tab-btn" onclick="showTool('bulk')">BULK</button>
-        <button class="tab-btn" onclick="showTool('receipt')">RECEIPT</button>
+    <div class="counter-box">
+        <span id="total-boosts" style="color: var(--acc); font-weight: 900; font-size: 1.5rem;">12,450</span>
+        <span style="font-size: 0.8rem; opacity: 0.7; margin-left: 5px;">Total Views Delivered</span>
     </div>
 
-    <div id="video" class="tool-card active">
-        <h3>🎥 Video Downloader</h3>
-        <input type="text" id="vUrl" placeholder="Paste TikTok/IG Link">
-        <button class="btn" onclick="window.open('https://snaptik.app/?url='+document.getElementById('vUrl').value)">Download Now</button>
-    </div>
-
-    <div id="resize" class="tool-card">
-        <h3>🖼️ Image/File Resizer</h3>
-        <p style="font-size:0.7rem; opacity:0.6;">Reduces file size for easy upload.</p>
-        <input type="file" id="fIn" accept="image/*">
-        <button class="btn" style="background:var(--success)" onclick="processResize()">Compress & Download</button>
-    </div>
-
-    <div id="bulk" class="tool-card">
-        <h3>📇 Bulk Formatter</h3>
-        <textarea id="numList" rows="5" placeholder="Paste numbers here (one per line)"></textarea>
-        <button class="btn" onclick="doBulk()">Download .VCF File</button>
-    </div>
-
-    <div id="receipt" class="tool-card">
-        <h3>🧾 Advanced Receipt Maker</h3>
-        <input type="text" id="bName" placeholder="Business Name">
-        <input type="text" id="items" placeholder="Items (e.g. 2 Shoes, 1 Bag)">
-        <input type="number" id="price" placeholder="Total GHS">
-        <button class="btn" onclick="doReceipt()">Preview Receipt</button>
-        
-        <div id="receipt-render">
-            <div class="receipt-header">
-                <h2 id="out-b" style="margin:0;"></h2>
-                <p>OFFICIAL SALES RECEIPT</p>
-            </div>
-            <p>Date: <span id="out-d"></span></p>
-            <p>Description: <b id="out-items"></b></p>
-            <hr>
-            <h2 style="text-align:right;">TOTAL: GHS <span id="out-p"></span></h2>
-            <p style="text-align:center; font-size:0.8rem; margin-top:20px;">~ Thank you for your patronage! ~</p>
+    <div class="card" id="step1">
+        <h3 style="margin-top:0;">1. Earn Your Credits 💰</h3>
+        <p style="font-size:0.85rem; opacity:0.6;">Watch one community video for 10s to unlock your boost slot.</p>
+        <div style="background: #030712; padding: 20px; border-radius: 16px; text-align: center; border: 1px dashed #374151;">
+            <p style="font-size: 0.7rem; color: var(--p); text-transform: uppercase; font-weight: bold;">Active Task:</p>
+            <p style="margin: 10px 0; font-weight: bold;">🔥 Global Community Task</p>
+            <button class="btn" onclick="startWatchTask()">Watch & Verify</button>
         </div>
-        <button id="downBtn" class="btn" style="background:var(--success); display:none;" onclick="downloadReceipt()">Download as Image (PNG)</button>
+        <div id="timer">10</div>
+    </div>
+
+    <div class="card" id="step2" style="opacity: 0.3; pointer-events: none;">
+        <h3 style="margin-top:0;">2. Start Your Boost 🚀</h3>
+        <p style="font-size:0.85rem; opacity:0.6;">Paste your link. Our engine will route real traffic to it.</p>
+        <input type="text" id="userLink" placeholder="Paste Video Link">
+        <button class="btn" style="background: var(--acc);" onclick="submitLink()">Activate Viral Push</button>
+    </div>
+
+    <div class="card" id="success-screen" style="display:none; text-align:center; border-color: var(--acc);">
+        <h2 style="color: var(--acc); margin-top: 0;">ENGINE STARTED! ✅</h2>
+        <p style="font-size: 0.9rem;">Your video is now in rotation. Share to speed up growth!</p>
+        <button class="btn" style="background:#25d366; margin-top:10px;" onclick="shareWhatsApp()">Share Status to WhatsApp</button>
+    </div>
+
+    <div class="card" style="background: transparent; border: 1px dashed #334155;">
+        <h3 style="margin-top:0; font-size: 1rem; color: var(--p);">How It Works 💡</h3>
+        <div class="trust-item"><b>Direct Watch:</b> Users provide 10s retention.</div>
+        <div class="trust-item"><b>Algo Signal:</b> High watch-time triggers the FYP.</div>
+        <div class="trust-item"><b>Viral Growth:</b> Social apps push you to thousands.</div>
+    </div>
+
+    <div class="card" style="background: #030712; border: 1px solid #1f2937;">
+        <h4 style="margin:0; color: var(--acc); font-size: 0.75rem; text-transform: uppercase;">Real-Time Success 📈</h4>
+        <p id="ticker-text" style="font-size: 0.8rem; margin: 10px 0 0 0; color: #9ca3af; transition: 0.5s;">User @fashion_gh gained +1.2k views</p>
     </div>
 </div>
 
 <script>
-    function showTool(toolId) {
-        document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(toolId).classList.add('active');
-        event.currentTarget.classList.add('active');
+    const seeds = ["https://www.tiktok.com/explore", "https://www.instagram.com/reels/"];
+    let sessionLinks = JSON.parse(localStorage.getItem('theophos_db')) || [];
+    let masterQueue = [...seeds, ...sessionLinks];
+
+    let totalBoosts = 12450;
+    setInterval(() => {
+        totalBoosts += Math.floor(Math.random() * 3) + 1;
+        document.getElementById('total-boosts').innerText = totalBoosts.toLocaleString();
+    }, 4500);
+
+    function startWatchTask() {
+        let randomVideo = masterQueue[Math.floor(Math.random() * masterQueue.length)];
+        window.open(randomVideo, '_blank');
+        let time = 10;
+        const clock = document.getElementById('timer');
+        clock.style.display = 'block';
+        const countdown = setInterval(() => {
+            time--; clock.innerText = time;
+            if (time <= 0) {
+                clearInterval(countdown);
+                clock.style.display = 'none';
+                document.getElementById('step2').style.opacity = "1";
+                document.getElementById('step2').style.pointerEvents = "auto";
+                alert("Verification Successful! Step 2 unlocked.");
+            }
+        }, 1000);
     }
 
-    // FIX: Bulk Formatter Download
-    function doBulk() {
-        const list = document.getElementById('numList').value.split('\n');
-        let vcf = "";
-        list.forEach((num, i) => {
-            if(num.trim()) vcf += `BEGIN:VCARD\nVERSION:3.0\nFN:Client ${i+1}\nTEL;TYPE=CELL:${num.trim()}\nEND:VCARD\n`;
-        });
-        const blob = new Blob([vcf], {type: "text/vcard"});
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url; a.download = "contacts.vcf"; a.click();
+    function submitLink() {
+        const link = document.getElementById('userLink').value;
+        if (!link.includes("http")) return alert("Please enter a valid link!");
+        sessionLinks.push(link);
+        localStorage.setItem('theophos_db', JSON.stringify(sessionLinks));
+        masterQueue.push(link);
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('success-screen').style.display = 'block';
     }
 
-    // FIX: Image Resizer
-    function processResize() {
-        const file = document.getElementById('fIn').files[0];
-        if(!file) return alert("Select a file!");
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-            const img = new Image();
-            img.src = e.target.result;
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.width * 0.6;
-                canvas.height = img.height * 0.6;
-                canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                const a = document.createElement('a');
-                a.href = canvas.toDataURL('image/jpeg', 0.7);
-                a.download = "resized_image.jpg"; a.click();
-            };
-        };
+    function shareWhatsApp() {
+        const text = encodeURIComponent("I just added my video to the Theophos Viral Engine! Get free views here: " + window.location.href);
+        window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
     }
 
-    // Advanced Receipt Logic
-    function doReceipt() {
-        document.getElementById('out-b').innerText = document.getElementById('bName').value;
-        document.getElementById('out-items').innerText = document.getElementById('items').value;
-        document.getElementById('out-p').innerText = document.getElementById('price').value;
-        document.getElementById('out-d').innerText = new Date().toLocaleDateString();
-        document.getElementById('receipt-render').style.display = 'block';
-        document.getElementById('downBtn').style.display = 'block';
-    }
-
-    function downloadReceipt() {
-        html2canvas(document.querySelector("#receipt-render")).then(canvas => {
-            const a = document.createElement('a');
-            a.href = canvas.toDataURL("image/png");
-            a.download = "receipt.png"; a.click();
-        });
-    }
+    const stories = ["User @kofi gained +45 followers", "Video 'Shatta' reached 5k views", "User @accra gained +1.5k views", "Boost Engine pushed @creator_x to FYP!"];
+    let sIdx = 0;
+    setInterval(() => {
+        const t = document.getElementById('ticker-text');
+        t.style.opacity = 0;
+        setTimeout(() => {
+            t.innerText = stories[sIdx]; t.style.opacity = 1;
+            sIdx = (sIdx + 1) % stories.length;
+        }, 500);
+    }, 4000);
 </script>
+
 </body>
 </html>
