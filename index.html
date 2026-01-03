@@ -3,128 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THEOPHOS CREATOR HUB | Viral Engine</title>
+    <title>THEOPHOS HUB | Viral Engine</title>
     <style>
         :root { --p: #6366f1; --bg: #030712; --c: #111827; --acc: #10b981; --red: #ff0050; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; line-height: 1.6; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; }
         .container { max-width: 480px; margin: 0 auto; }
         .card { background: var(--c); padding: 25px; border-radius: 24px; border: 1px solid #1f2937; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .counter-box { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--acc); padding: 15px; border-radius: 50px; text-align: center; margin-bottom: 25px; }
         input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #374151; background: #030712; color: white; box-sizing: border-box; font-size: 1rem; outline: none; }
-        input:focus { border-color: var(--p); }
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; background: var(--p); color: white; transition: 0.3s; font-size: 1rem; }
-        .btn:active { transform: scale(0.98); }
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; background: var(--p); color: white; transition: 0.3s; }
+        .btn:disabled { background: #374151; cursor: not-allowed; }
         #timer { font-size: 2.5rem; color: var(--acc); font-weight: 900; text-align: center; margin: 10px 0; display: none; }
-        .trust-item { font-size: 0.8rem; opacity: 0.8; margin-bottom: 8px; display: flex; align-items: center; }
-        .trust-item::before { content: "✅"; margin-right: 8px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header style="text-align:center; margin-top: 20px; margin-bottom: 30px;">
-        <h1 style="margin:0; letter-spacing: -1.5px; font-size: 2rem;">THEOPHOS <span style="color:var(--red)">CREATOR</span></h1>
-        <p style="opacity:0.5; font-size: 0.85rem;">Global Viral Exchange Engine</p>
+        <h1 style="margin:0; letter-spacing: -1.5px; font-size: 2rem;">THEOPHOS <span style="color:var(--red)">HUB</span></h1>
+        <p style="opacity:0.5; font-size: 0.85rem;">Global Community Viral Exchange</p>
     </header>
 
     <div class="counter-box">
         <span id="total-boosts" style="color: var(--acc); font-weight: 900; font-size: 1.5rem;">12,450</span>
-        <span style="font-size: 0.8rem; opacity: 0.7; margin-left: 5px;">Total Views Delivered</span>
+        <span style="font-size: 0.8rem; opacity: 0.7; margin-left: 5px;">Views Delivered</span>
     </div>
 
     <div class="card" id="step1">
         <h3 style="margin-top:0;">1. Earn Your Credits 💰</h3>
-        <p style="font-size:0.85rem; opacity:0.6;">Watch one community video for 10s to unlock your boost slot.</p>
-        <div style="background: #030712; padding: 20px; border-radius: 16px; text-align: center; border: 1px dashed #374151;">
-            <p style="font-size: 0.7rem; color: var(--p); text-transform: uppercase; font-weight: bold;">Active Task:</p>
-            <p style="margin: 10px 0; font-weight: bold;">🔥 Global Community Task</p>
-            <button class="btn" onclick="startWatchTask()">Watch & Verify</button>
-        </div>
+        <p style="font-size:0.85rem; opacity:0.6;">Watch a community member's video for 10s to unlock your boost.</p>
+        <button class="btn" id="watchBtn" onclick="startWatchTask()" disabled>Connecting to Engine...</button>
         <div id="timer">10</div>
     </div>
 
     <div class="card" id="step2" style="opacity: 0.3; pointer-events: none;">
         <h3 style="margin-top:0;">2. Start Your Boost 🚀</h3>
-        <p style="font-size:0.85rem; opacity:0.6;">Paste your link. Our engine will route real traffic to it.</p>
-        <input type="text" id="userLink" placeholder="Paste Video Link">
-        <button class="btn" style="background: var(--acc);" onclick="submitLink()">Activate Viral Push</button>
+        <input type="text" id="userLink" placeholder="Paste Video Link (Any Platform)">
+        <button class="btn" style="background: var(--acc);" id="submitBtn" onclick="submitLink()">Add to Global Queue</button>
     </div>
 
     <div class="card" id="success-screen" style="display:none; text-align:center; border-color: var(--acc);">
-        <h2 style="color: var(--acc); margin-top: 0;">ENGINE STARTED! ✅</h2>
-        <p style="font-size: 0.9rem;">Your video is now in rotation. Share to speed up growth!</p>
-        <button class="btn" style="background:#25d366; margin-top:10px;" onclick="shareWhatsApp()">Share Status to WhatsApp</button>
-    </div>
-
-    <div class="card" style="background: transparent; border: 1px dashed #334155;">
-        <h3 style="margin-top:0; font-size: 1rem; color: var(--p);">How It Works 💡</h3>
-        <div class="trust-item"><b>Direct Watch:</b> Users provide 10s retention.</div>
-        <div class="trust-item"><b>Algo Signal:</b> High watch-time triggers the FYP.</div>
-        <div class="trust-item"><b>Viral Growth:</b> Social apps push you to thousands.</div>
-    </div>
-
-    <div class="card" style="background: #030712; border: 1px solid #1f2937;">
-        <h4 style="margin:0; color: var(--acc); font-size: 0.75rem; text-transform: uppercase;">Real-Time Success 📈</h4>
-        <p id="ticker-text" style="font-size: 0.8rem; margin: 10px 0 0 0; color: #9ca3af; transition: 0.5s;">User @fashion_gh gained +1.2k views</p>
+        <h2 style="color: var(--acc); margin-top: 0;">SUCCESS! ✅</h2>
+        <p style="font-size: 0.9rem;">Your video is now being shown to others.</p>
+        <button class="btn" style="background:#25d366;" onclick="location.reload()">Boost Another Video</button>
     </div>
 </div>
 
 <script>
-    const seeds = ["https://www.tiktok.com/explore", "https://www.instagram.com/reels/"];
-    let sessionLinks = JSON.parse(localStorage.getItem('theophos_db')) || [];
-    let masterQueue = [...seeds, ...sessionLinks];
+    // YOUR GOOGLE SHEETS BRAIN URL
+    const API_URL = "https://script.google.com/macros/s/AKfycbwjOAV-wdmlkMvuutTY6M8f2wl63vF4UrLyW8pKHrLFkSCUBFioBteRw3tUpzUnXJSo/exec"; 
+    
+    let communityLinks = [];
 
-    let totalBoosts = 12450;
-    setInterval(() => {
-        totalBoosts += Math.floor(Math.random() * 3) + 1;
-        document.getElementById('total-boosts').innerText = totalBoosts.toLocaleString();
-    }, 4500);
+    // Fetch links from your Google Sheet
+    async function fetchLinks() {
+        try {
+            const response = await fetch(API_URL);
+            communityLinks = await response.json();
+            if (communityLinks.length > 0) {
+                const btn = document.getElementById('watchBtn');
+                btn.innerText = "Watch & Verify";
+                btn.disabled = false;
+            }
+        } catch (e) {
+            document.getElementById('watchBtn').innerText = "Engine Starting... Refresh page";
+        }
+    }
+    fetchLinks();
 
     function startWatchTask() {
-        let randomVideo = masterQueue[Math.floor(Math.random() * masterQueue.length)];
-        window.open(randomVideo, '_blank');
+        if (communityLinks.length === 0) return alert("No links available yet!");
+        
+        let video = communityLinks[Math.floor(Math.random() * communityLinks.length)];
+        window.open(video, '_blank');
+        
         let time = 10;
         const clock = document.getElementById('timer');
+        const btn = document.getElementById('watchBtn');
+        
+        btn.disabled = true;
+        btn.innerText = "Watching...";
         clock.style.display = 'block';
+
         const countdown = setInterval(() => {
             time--; clock.innerText = time;
             if (time <= 0) {
                 clearInterval(countdown);
                 clock.style.display = 'none';
+                btn.innerText = "Verified ✅";
                 document.getElementById('step2').style.opacity = "1";
                 document.getElementById('step2').style.pointerEvents = "auto";
-                alert("Verification Successful! Step 2 unlocked.");
             }
         }, 1000);
     }
 
-    function submitLink() {
+    async function submitLink() {
         const link = document.getElementById('userLink').value;
-        if (!link.includes("http")) return alert("Please enter a valid link!");
-        sessionLinks.push(link);
-        localStorage.setItem('theophos_db', JSON.stringify(sessionLinks));
-        masterQueue.push(link);
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('success-screen').style.display = 'block';
-    }
+        if (!link.includes("http")) return alert("Please paste a valid link!");
 
-    function shareWhatsApp() {
-        const text = encodeURIComponent("I just added my video to the Theophos Viral Engine! Get free views here: " + window.location.href);
-        window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-    }
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = "Syncing with Hub...";
+        btn.disabled = true;
 
-    const stories = ["User @kofi gained +45 followers", "Video 'Shatta' reached 5k views", "User @accra gained +1.5k views", "Boost Engine pushed @creator_x to FYP!"];
-    let sIdx = 0;
-    setInterval(() => {
-        const t = document.getElementById('ticker-text');
-        t.style.opacity = 0;
-        setTimeout(() => {
-            t.innerText = stories[sIdx]; t.style.opacity = 1;
-            sIdx = (sIdx + 1) % stories.length;
-        }, 500);
-    }, 4000);
+        try {
+            await fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({ link: link })
+            });
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('success-screen').style.display = 'block';
+        } catch (e) {
+            alert("Connection error. Try again!");
+            btn.disabled = false;
+            btn.innerText = "Add to Global Queue";
+        }
+    }
 </script>
-
 </body>
 </html>
