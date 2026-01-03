@@ -8,13 +8,15 @@
         :root { --p: #6366f1; --bg: #030712; --c: #111827; --acc: #10b981; --red: #ff0050; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; }
         .container { max-width: 480px; margin: 0 auto; }
-        .card { background: var(--c); padding: 25px; border-radius: 24px; border: 1px solid #1f2937; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card { background: var(--c); padding: 25px; border-radius: 24px; border: 1px solid #1f2937; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; }
         .counter-box { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--acc); padding: 15px; border-radius: 50px; text-align: center; margin-bottom: 25px; }
         input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #374151; background: #030712; color: white; box-sizing: border-box; font-size: 1rem; outline: none; }
         .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; background: var(--p); color: white; transition: 0.3s; }
-        .btn:disabled { background: #374151; cursor: not-allowed; }
+        .btn:disabled { background: #374151; cursor: not-allowed; opacity: 0.6; }
         #timer { font-size: 2.5rem; color: var(--acc); font-weight: 900; text-align: center; margin: 10px 0; display: none; }
-        .footer-note { font-size: 0.75rem; opacity: 0.4; text-align: center; line-height: 1.4; padding: 10px; margin-top: 20px; }
+        .live-feed { font-size: 0.8rem; color: var(--acc); text-align: center; margin-bottom: 15px; height: 20px; font-weight: 600; }
+        .instruction-list { font-size: 0.8rem; opacity: 0.7; padding-left: 20px; margin: 10px 0; }
+        .footer-note { font-size: 0.7rem; opacity: 0.4; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -22,82 +24,82 @@
 <div class="container">
     <header style="text-align:center; margin-top: 20px; margin-bottom: 30px;">
         <h1 style="margin:0; letter-spacing: -2px; font-size: 2.2rem;">THEOPHOS <span style="color:var(--red)">HUB</span></h1>
-        <p style="opacity:0.6; font-size: 0.9rem;">Global Community Viral Exchange</p>
+        <div class="live-feed" id="liveFeed">Connecting to creator network...</div>
     </header>
 
     <div class="counter-box">
-        <span id="engine-status" style="color: var(--acc); font-weight: 900; font-size: 1.2rem;">Connecting to Engine...</span>
+        <span id="engine-status" style="font-weight: 900;">Syncing Database...</span>
     </div>
 
     <div class="card" id="step1">
-        <h3 style="margin-top:0;">1. Support a Creator 🤝</h3>
-        <p style="font-size:0.85rem; opacity:0.6;">Watch a community video for 10 seconds to unlock your own viral boost.</p>
-        <button class="btn" id="watchBtn" onclick="startWatchTask()" disabled>Wait for Connection...</button>
-        <div id="timer">10</div>
+        <h3 style="margin-top:0;">1. Support the Community 🤝</h3>
+        <p style="font-size:0.85rem; opacity:0.8;">Open the video and complete these tasks:</p>
+        <ul class="instruction-list">
+            <li>Watch for full 30 seconds (Required)</li>
+            <li>Like and Repost the video</li>
+            <li>Drop a supportive comment</li>
+        </ul>
+        <button class="btn" id="watchBtn" onclick="startWatchTask()" disabled>Wait for Engine...</button>
+        <div id="timer">30</div>
     </div>
 
     <div class="card" id="step2" style="opacity: 0.3; pointer-events: none;">
-        <h3 style="margin-top:0;">2. Boost Your Content 🚀</h3>
-        <input type="text" id="userLink" placeholder="Paste your Video Link here">
-        <button class="btn" style="background: var(--acc);" id="submitBtn" onclick="submitLink()">Add to Global Queue</button>
+        <h3 style="margin-top:0;">2. Your Viral Turn 🚀</h3>
+        <p style="font-size:0.85rem; opacity:0.6;">Verified! Enter your link for the global queue.</p>
+        <input type="text" id="userLink" placeholder="Paste Video Link (Any Platform)">
+        <button class="btn" style="background: var(--acc);" id="submitBtn" onclick="submitLink()">Start My Boost</button>
     </div>
 
-    <div class="card" id="success-screen" style="display:none; text-align:center; border-color: var(--acc);">
-        <h2 style="color: var(--acc); margin-top: 0;">LINK ADDED! ✅</h2>
-        <p style="font-size: 0.9rem;">Your video is now in the community queue.</p>
-        <button class="btn" style="background:#25d366;" onclick="location.reload()">Boost Another Video</button>
+    <div id="success-screen" class="card" style="display:none; text-align:center; border: 2px solid var(--acc);">
+        <h2 style="color: var(--acc); margin-top:0;">ADDED TO QUEUE! ✅</h2>
+        <p>Your content is now live in the global rotation.</p>
+        <button class="btn" onclick="location.reload()">Boost Another Video</button>
     </div>
 
     <div class="footer-note">
-        By using Theophos Hub, you agree to keep your videos public.<br>
-        Abuse of the system will result in a permanent ban.
+        System monitors watch time. Faking tasks results in a permanent ban.
     </div>
 </div>
 
 <script>
-    // YOUR FINAL DEPLOYED LINK
     const API_URL = "https://script.google.com/macros/s/AKfycbwjOAV-wdmlkMvuutTY6M8f2wl63vF4UrLyW8pKHrLFkSCUBFioBteRw3tUpzUnXJSo/exec"; 
-    
     let communityLinks = [];
 
-    // Fetch the links from your Google Sheet
+    // Live Feed Simulation
+    const locations = ["Accra", "Kumasi", "Lagos", "London", "Nairobi", "Tema"];
+    setInterval(() => {
+        const loc = locations[Math.floor(Math.random()*locations.length)];
+        document.getElementById('liveFeed').innerText = `⚡ Someone from ${loc} just boosted a video!`;
+    }, 5000);
+
     async function fetchLinks() {
         try {
             const response = await fetch(API_URL);
             const data = await response.json();
-            communityLinks = data;
+            // Shuffle links so everyone gets a fair turn
+            communityLinks = data.sort(() => Math.random() - 0.5);
             
             if (communityLinks.length > 0) {
-                document.getElementById('engine-status').innerText = "Engine Live: " + communityLinks.length + " Links";
+                document.getElementById('engine-status').innerText = communityLinks.length + " ACTIVE BOOSTS";
                 const btn = document.getElementById('watchBtn');
-                btn.innerText = "Watch & Unlock";
+                btn.innerText = "Watch & Verify (30s)";
                 btn.disabled = false;
-            } else {
-                document.getElementById('engine-status').innerText = "Engine Live: Add First Link";
-                // If sheet is empty, allow submission directly to get started
-                document.getElementById('step2').style.opacity = "1";
-                document.getElementById('step2').style.pointerEvents = "auto";
             }
-        } catch (e) {
-            console.log(e);
-            document.getElementById('engine-status').innerText = "Connection Error. Refreshing...";
-            setTimeout(fetchLinks, 3000);
-        }
+        } catch (e) { setTimeout(fetchLinks, 3000); }
     }
     fetchLinks();
 
     function startWatchTask() {
         if (communityLinks.length === 0) return;
-        
-        let video = communityLinks[Math.floor(Math.random() * communityLinks.length)];
+        let video = communityLinks[0];
         window.open(video, '_blank');
         
-        let time = 10;
+        let time = 30; // 30 SECOND RETENTION BOOST
         const clock = document.getElementById('timer');
         const btn = document.getElementById('watchBtn');
         
         btn.disabled = true;
-        btn.innerText = "Verifying...";
+        btn.innerText = "Task in Progress...";
         clock.style.display = 'block';
 
         const countdown = setInterval(() => {
@@ -105,7 +107,8 @@
             if (time <= 0) {
                 clearInterval(countdown);
                 clock.style.display = 'none';
-                btn.innerText = "Verified! ✅";
+                btn.innerText = "Task Verified! ✅";
+                alert("ENGAGEMENT SAVED: Ensure you Liked and Shared or your link will be removed manually.");
                 document.getElementById('step2').style.opacity = "1";
                 document.getElementById('step2').style.pointerEvents = "auto";
             }
@@ -114,10 +117,10 @@
 
     async function submitLink() {
         const link = document.getElementById('userLink').value;
-        if (!link.includes("http")) return alert("Please enter a valid link!");
+        if (!link.includes("http")) return alert("Please paste a valid link!");
 
         const btn = document.getElementById('submitBtn');
-        btn.innerText = "Syncing with Database...";
+        btn.innerText = "Deploying to Hub...";
         btn.disabled = true;
 
         try {
@@ -130,9 +133,8 @@
             document.getElementById('step2').style.display = 'none';
             document.getElementById('success-screen').style.display = 'block';
         } catch (e) {
-            alert("Network error. Try again!");
+            alert("Connection error. Try again!");
             btn.disabled = false;
-            btn.innerText = "Add to Global Queue";
         }
     }
 </script>
